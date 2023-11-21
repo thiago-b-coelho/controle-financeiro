@@ -1,4 +1,5 @@
 "use client";
+import * as S from './style.jsx'
 import React from "react";
 
 const LoginForm = () => {
@@ -10,16 +11,9 @@ const LoginForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <h1>Login Form</h1>
-      <label htmlFor="email">Email</label>
-      <input type="text" placeholder="E-mail" id="email" name="email" />
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        placeholder="Password"
-        id="password"
-        name="password"
-      />
-      <button type="submit">Login</button>
+      <S.TextField id='email' label='E-mail' type='text' variant='standard'/>
+      <S.TextField id='password' label='Password' type='password' helperText='Minimun 8 digits' variant='standard'/>
+      <S.Button variant="outlined" type="submit">Login</S.Button>
     </form>
   );
 };
