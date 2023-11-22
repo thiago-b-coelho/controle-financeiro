@@ -28,8 +28,7 @@ const RegisterForm = () => {
         password,
       });
       localStorage.setItem("token", data.token);
-      console.log(data.token);
-      handleNotification(data, "success");
+      handleNotification(data.message, "success");
     } catch (error) {
       handleNotification(error.response.data.error, "error");
     }

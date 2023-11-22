@@ -19,12 +19,13 @@ const LoginForm = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const {data: {data}} = await axios.post("http://localhost:8080/auth/login", {
+      const {
+        data: { data },
+      } = await axios.post("http://localhost:8080/auth/login", {
         email,
         password,
       });
       localStorage.setItem("token", data.token);
-      console.log(data);
       handleNotification(data.message, "success");
     } catch (error) {
       handleNotification(error.response.data.error, "error");
