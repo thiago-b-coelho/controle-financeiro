@@ -1,11 +1,13 @@
+'use client'
 import LoginForm from '@/components/LoginForm'
+import * as S from './style'
 import React from 'react'
 
 const LoginPage = () => {
   return (
-    <div>
+    <S.LoginWrapper>
       <LoginForm />
-    </div>
+    </S.LoginWrapper>
   )
 }
 

@@ -1,11 +1,13 @@
+'use client';
 import RegisterForm from '@/components/RegisterForm'
+import * as S from './style';
 import React from 'react'
 
 const RegisterPage = () => {
   return (
-    <div>
+    <S.RegisterWrap>
       <RegisterForm/>
-    </div>
+    </S.RegisterWrap>
   )
 }
 
