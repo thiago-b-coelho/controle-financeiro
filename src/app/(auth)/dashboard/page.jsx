@@ -1,5 +1,7 @@
 "use client";
 
+import CreateCategory from "@/components/Categories/CreateCategory";
+import UpdateCategory from "@/components/Categories/UpdateCategory";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -7,7 +9,7 @@ import React, { useEffect } from "react";
 const DashboardPage = () => {
   const router = useRouter();
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
       router.push("/login");
     }
@@ -23,7 +25,11 @@ const DashboardPage = () => {
       });
   }, []);
 
-  return <div>DashboardPage</div>;
+  return (
+    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <UpdateCategory categoryId={3} />
+    </div>
+  );
 };
 
 export default DashboardPage;
