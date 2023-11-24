@@ -1,15 +1,19 @@
 "use client";
 import axios from "axios";
-import AddchartIcon from "@mui/icons-material/Addchart";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEventsTwoTone";
+import SavingsTwoToneIcon from '@mui/icons-material/SavingsTwoTone';
+import EventTwoToneIcon from '@mui/icons-material/EditCalendarTwoTone';
 import * as S from "./style.jsx";
 import React, { useEffect, useState } from "react";
 import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";
 
-const UpdateCategory = ({categoryId}) => {
+const UpdateGoal = ({goalId}) => {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [oldName, setOldName] = useState("");
+  const [description, setDescription] = useState("");
+  const [oldGoal, setOldGoal] = useState("");
+  const [value, setValue] = useState("");
+  const [date, setDate] = useState("");
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -17,21 +21,23 @@ const UpdateCategory = ({categoryId}) => {
   });
 
   useEffect(() => {
-    const getCategory = async () => {
+    const getGoal = async () => {
       try {
         const token = localStorage.getItem('token');
-        const {data: {data}} = await axios.get(`http://localhost:8080/category/${categoryId}`, {
+        const {data: {data}} = await axios.get(`http://localhost:8080/goal/${goalId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-        setName(data.name);
-        setOldName(data.name);
+        setOldGoal(data.description)
+        setDescription(data.description);
+        setValue(data.value)
+        setDate(data.date)
       }catch (error) {
         handleNotification(error.response.data.message, "error");
       }
     }
-    getCategory();
+    getGoal();
   },[]);
 
   const onSubmit = async (e) => {
@@ -40,17 +46,18 @@ const UpdateCategory = ({categoryId}) => {
       const token = localStorage.getItem("token");
 
       const { data }  = await axios.put(
-        `http://localhost:8080/category/${categoryId}`,
-        { name },
+        `http://localhost:8080/goal/${goalId}`,
+        { description, value, date },
         { headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
       handleNotification(data.message, "success");
-      setOldName(name)
+      setOldGoal(description)
     } catch (error) {
-      handleNotification(error.response.data.error, "error");
+      console.log(error)
+      //handleNotification(error.response.data.error, "error");
     }
   };
 
@@ -76,22 +83,56 @@ const UpdateCategory = ({categoryId}) => {
   return (
     <>
       <S.Form onSubmit={onSubmit}>
-        <h1>Update category '{oldName}'</h1>
+        <h1>Update Goal '{oldGoal}'</h1>
         <S.TextField
           id="name"
-          label="New name"
+          label="New goal"
           type="text"
           variant="outlined"
           size="small"
-          value={name}
+          value={description}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <AddchartIcon />
+                <EmojiEventsIcon />
               </InputAdornment>
             ),
           }}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+<S.TextField
+          id="name"
+          label="Amount"
+          type="text"
+          variant="outlined"
+          size="small"
+          value={value}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SavingsTwoToneIcon />
+              </InputAdornment>
+            ),
+          }}
+          onChange={(e) => setValue(e.target.value)}
+        />
+
+        <S.TextField
+          id="name"
+          label="Final Date"
+          type="text"
+          variant="outlined"
+          size="small"
+          value={date}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <EventTwoToneIcon />
+              </InputAdornment>
+            ),
+          }}
+          onChange={(e) => setDate(e.target.value)}
         />
 
         <S.Button variant="contained" type="submit">
@@ -116,4 +157,4 @@ const UpdateCategory = ({categoryId}) => {
   );
 };
 
-export default UpdateCategory;
+export default UpdateGoal;
