@@ -1,16 +1,18 @@
 "use client";
 import axios from "axios";
-import * as S from "./style.jsx";
-import KeyIcon from "@mui/icons-material/Key";
+import * as S from "../../styles/style.jsx";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import React, { useState } from "react";
 import { InputAdornment, Link } from "@mui/material";
+import { useRouter } from "next/navigation.js";
 
 const RegisterForm = () => {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -29,6 +31,7 @@ const RegisterForm = () => {
       });
       localStorage.setItem("token", data.token);
       handleNotification(data.message, "success");
+      router.push("/dashboard");
     } catch (error) {
       handleNotification(error.response.data.error, "error");
     }
@@ -56,7 +59,13 @@ const RegisterForm = () => {
   return (
     <>
       <S.Form onSubmit={onSubmit}>
-        <h1>Register</h1>
+        <S.Typography
+          variant="h1"
+          color="primary"
+          style={{ marginBottom: "40px" }}
+        >
+          Register
+        </S.Typography>
         <S.TextField
           id="name"
           label="Name"
@@ -87,22 +96,27 @@ const RegisterForm = () => {
           }}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <S.TextField
-          id="password"
-          label="Password"
-          type="password"
-          // helperText="Minimun 8 digits"
-          variant="outlined"
-          size="small"
-          InputProps={{
-            endAdornment: (
+        <S.FormControl variant="outlined" size="small">
+          <S.InputLabel htmlFor="password">Password</S.InputLabel>
+          <S.OutlinedInput
+            id="password"
+            type={showPassword ? "text" : "password"}
+            endAdornment={
               <InputAdornment position="end">
-                <KeyIcon />
+                <S.IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={(e) => e.preventDefault()}
+                  edge="end"
+                >
+                  {showPassword ? <S.VisibilityOff /> : <S.Visibility />}
+                </S.IconButton>
               </InputAdornment>
-            ),
-          }}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+            }
+            label="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </S.FormControl>
         <S.Button variant="contained" type="submit">
           Register
         </S.Button>

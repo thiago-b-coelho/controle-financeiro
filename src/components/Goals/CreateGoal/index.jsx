@@ -1,14 +1,14 @@
 "use client";
 import axios from "axios";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEventsTwoTone";
-import SavingsTwoToneIcon from '@mui/icons-material/SavingsTwoTone';
-import EventTwoToneIcon from '@mui/icons-material/EditCalendarTwoTone';
-import * as S from "./style.jsx";
+import SavingsTwoToneIcon from "@mui/icons-material/SavingsTwoTone";
+import EventTwoToneIcon from "@mui/icons-material/EditCalendarTwoTone";
+import * as S from "../../../styles/style.jsx";
 import React, { useState } from "react";
-import { InputAdornment } from "@mui/material";
+import { InputAdornment, Modal } from "@mui/material";
 import { useRouter } from "next/navigation.js";
 
-const CreateGoal = () => {
+const CreateGoal = ({ open, setOpen }) => {
   const router = useRouter();
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
@@ -34,6 +34,7 @@ const CreateGoal = () => {
         }
       );
       handleNotification(data.message, "success");
+      setOpen(false);
     } catch (error) {
       console.log(error);
       handleNotification(error[0], "error");
@@ -61,60 +62,69 @@ const CreateGoal = () => {
 
   return (
     <>
-      <S.Form onSubmit={onSubmit}>
-        <h1>Create goal</h1>
-        <S.TextField
-          id="name"
-          label="Goal"
-          type="text"
-          variant="outlined"
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <EmojiEventsIcon />
-              </InputAdornment>
-            ),
-          }}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <S.ModalBox>
+          <S.Form onSubmit={onSubmit}>
+            <h1>Create goal</h1>
+            <S.TextField
+              id="name"
+              label="Goal"
+              type="text"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <EmojiEventsIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setDescription(e.target.value)}
+            />
 
-        <S.TextField
-          id="name"
-          label="Amount"
-          type="text"
-          variant="outlined"
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SavingsTwoToneIcon />
-              </InputAdornment>
-            ),
-          }}
-          onChange={(e) => setValue(e.target.value)}
-        />
+            <S.TextField
+              id="name"
+              label="Amount"
+              type="text"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SavingsTwoToneIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setValue(e.target.value)}
+            />
 
-        <S.TextField
-          id="name"
-          label="Final Date"
-          type="text"
-          variant="outlined"
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <EventTwoToneIcon />
-              </InputAdornment>
-            ),
-          }}
-          onChange={(e) => setDate(e.target.value)}
-        />
+            <S.TextField
+              id="name"
+              label="Final Date"
+              type="text"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <EventTwoToneIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setDate(e.target.value)}
+            />
 
-        <S.Button variant="contained" type="submit">
-          Create
-        </S.Button>
-      </S.Form>
+            <S.ModalButtonBox>
+              <S.Button variant="outlined" onClick={() => setOpen(false)}>
+                Cancel
+              </S.Button>
+              <S.Button variant="contained" type="submit">
+                Create
+              </S.Button>
+            </S.ModalButtonBox>
+          </S.Form>
+        </S.ModalBox>
+      </Modal>
 
       <S.SnackBar
         open={notification.open}

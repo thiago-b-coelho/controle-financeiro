@@ -3,7 +3,7 @@ import axios from "axios";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import PaymentsTwoToneIcon from "@mui/icons-material/PaymentsTwoTone";
 import EventTwoToneIcon from "@mui/icons-material/EditCalendarTwoTone";
-import * as S from "./style.jsx";
+import * as S from "../../../styles/style.jsx";
 import React, { useEffect, useState } from "react";
 import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";
@@ -84,7 +84,7 @@ const UpdateTransaction = ({ transactionId }) => {
         }
       );
       handleNotification(data.message, "success");
-      setOldTransaction(description);
+      setOldTransaction(description);git 
     } catch (error) {
       handleNotification(error.response.data.message, "error");
     }

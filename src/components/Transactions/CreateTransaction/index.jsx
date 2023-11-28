@@ -3,13 +3,40 @@ import axios from "axios";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import PaymentsTwoToneIcon from "@mui/icons-material/PaymentsTwoTone";
 import EventTwoToneIcon from "@mui/icons-material/EditCalendarTwoTone";
-import * as S from "./style.jsx";
-import React, { useEffect, useState } from "react";
-import { InputAdornment } from "@mui/material";
+import * as S from "../../../styles/style.jsx";
+import React, { forwardRef, useEffect, useState } from "react";
+import { InputAdornment, Modal } from "@mui/material";
 import { useRouter } from "next/navigation.js";
+import { NumericFormat } from "react-number-format";
+import PropTypes from "prop-types";
 
-const CreateTransaction = () => {
-  const router = useRouter();
+const NumericFormatCustom = forwardRef(function NumericFormatCustom(
+  props,
+  ref,
+) {
+  const { onChange, ...other } = props;
+
+  return (
+    <NumericFormat
+      {...other}
+      getInputRef={ref}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator="."
+      valueIsNumericString
+      decimalSeparator=","
+      prefix="R$ "
+    />
+  );
+});
+
+const CreateTransaction = ({ open, setOpen }) => {
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [type, setType] = useState("");
@@ -48,7 +75,7 @@ const CreateTransaction = () => {
 
       const { data } = await axios.post(
         "http://localhost:8080/transaction",
-        { description, value, date, type, category_id: category },
+        { description, value: value * 100, date, type, category_id: category },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,6 +83,7 @@ const CreateTransaction = () => {
         }
       );
       handleNotification(data.message, "success");
+      setOpen(false);
     } catch (error) {
       console.log(error);
       handleNotification(error[0], "error");
@@ -83,89 +111,101 @@ const CreateTransaction = () => {
 
   return (
     <>
-      <S.Form onSubmit={onSubmit}>
-        <h1>Create transaction</h1>
-        <S.TextField
-          id="name"
-          label="Description"
-          type="text"
-          variant="outlined"
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <EditNoteIcon />
-              </InputAdornment>
-            ),
-          }}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <S.ModalBox>
+          <S.Form onSubmit={onSubmit}>
+            <h1>Create transaction</h1>
+            <S.TextField
+              id="name"
+              label="Description"
+              type="text"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <EditNoteIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setDescription(e.target.value)}
+            />
 
-        <S.TextField
-          id="name"
-          label="Value"
-          type="text"
-          variant="outlined"
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <PaymentsTwoToneIcon />
-              </InputAdornment>
-            ),
-          }}
-          onChange={(e) => setValue(e.target.value)}
-        />
+            <S.TextField
+              id="name"
+              label="Value"
+              type="text"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                inputComponent: NumericFormatCustom,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <PaymentsTwoToneIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setValue(e.target.value)}
+            />
 
-        <S.FormControl fullWidth size="small">
-          <S.InputLabel id="type">Type</S.InputLabel>
-          <S.Select
-            labelId="Type"
-            id="types"
-            value={type}
-            label="Type"
-            onChange={(e) => setType(e.target.value)}
-          >
-            <S.MenuItem value="Expense">Expense</S.MenuItem>
-            <S.MenuItem value="Income">Income</S.MenuItem>
-          </S.Select>
-        </S.FormControl>
+            <S.FormControl fullWidth size="small">
+              <S.InputLabel id="type">Type</S.InputLabel>
+              <S.Select
+                labelId="Type"
+                id="types"
+                value={type}
+                label="Type"
+                onChange={(e) => setType(e.target.value)}
+              >
+                <S.MenuItem value="Expense">Expense</S.MenuItem>
+                <S.MenuItem value="Income">Income</S.MenuItem>
+              </S.Select>
+            </S.FormControl>
 
-        <S.FormControl fullWidth size="small">
-          <S.InputLabel id="category">Category</S.InputLabel>
-          <S.Select
-            labelId="Category"
-            id="categories"
-            value={category}
-            label="Category"
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {categories.map((category) => (
-                <S.MenuItem key={category.id} value={category.id}>{category.name}</S.MenuItem>
-              ))}
-          </S.Select>
-        </S.FormControl>
+            <S.FormControl fullWidth size="small">
+              <S.InputLabel id="category">Category</S.InputLabel>
+              <S.Select
+                labelId="Category"
+                id="categories"
+                value={category}
+                label="Category"
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                {categories.map((category) => (
+                  <S.MenuItem key={category.id} value={category.id}>
+                    {category.name}
+                  </S.MenuItem>
+                ))}
+              </S.Select>
+            </S.FormControl>
 
-        <S.TextField
-          id="name"
-          label="Date"
-          type="text"
-          variant="outlined"
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <EventTwoToneIcon />
-              </InputAdornment>
-            ),
-          }}
-          onChange={(e) => setDate(e.target.value)}
-        />
+            <S.TextField
+              id="name"
+              label="Date"
+              type="text"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <EventTwoToneIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setDate(e.target.value)}
+            />
 
-        <S.Button variant="contained" type="submit">
-          Create
-        </S.Button>
-      </S.Form>
+            <S.ModalButtonBox>
+              <S.Button variant="outlined" onClick={() => setOpen(false)}>
+                Cancel
+              </S.Button>
+              <S.Button variant="contained" type="submit">
+                Create
+              </S.Button>
+            </S.ModalButtonBox>
+          </S.Form>
+        </S.ModalBox>
+      </Modal>
 
       <S.SnackBar
         open={notification.open}

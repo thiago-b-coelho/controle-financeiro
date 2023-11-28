@@ -3,7 +3,7 @@ import axios from "axios";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEventsTwoTone";
 import SavingsTwoToneIcon from '@mui/icons-material/SavingsTwoTone';
 import EventTwoToneIcon from '@mui/icons-material/EditCalendarTwoTone';
-import * as S from "./style.jsx";
+import * as S from "../../../styles/style.jsx";
 import React, { useEffect, useState } from "react";
 import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";
