@@ -2,17 +2,20 @@
 import axios from "axios";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import PaymentsTwoToneIcon from "@mui/icons-material/PaymentsTwoTone";
-import EventTwoToneIcon from "@mui/icons-material/EditCalendarTwoTone";
 import * as S from "../../../styles/style.jsx";
 import React, { forwardRef, useEffect, useState } from "react";
 import { InputAdornment, Modal } from "@mui/material";
-import { useRouter } from "next/navigation.js";
 import { NumericFormat } from "react-number-format";
-import PropTypes from "prop-types";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { formatISO } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
+/* Big chunk of code just to give the 'money' field some format */
 const NumericFormatCustom = forwardRef(function NumericFormatCustom(
   props,
-  ref,
+  ref
 ) {
   const { onChange, ...other } = props;
 
@@ -75,7 +78,7 @@ const CreateTransaction = ({ open, setOpen }) => {
 
       const { data } = await axios.post(
         "http://localhost:8080/transaction",
-        { description, value: value * 100, date, type, category_id: category },
+        { description, value: value * 100, date: formatISO(date, { representation: 'date', locale: ptBR }), type, category_id: category },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -178,22 +181,13 @@ const CreateTransaction = ({ open, setOpen }) => {
                 ))}
               </S.Select>
             </S.FormControl>
-
-            <S.TextField
-              id="name"
-              label="Date"
-              type="text"
-              variant="outlined"
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <EventTwoToneIcon />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(e) => setDate(e.target.value)}
-            />
+          
+            <LocalizationProvider
+              dateAdapter={AdapterDateFns}
+              adapterLocale={ptBR}
+            >
+              <DatePicker onChange={(newValue) => setDate(newValue)} sx={{ '& .MuiOutlinedInput-input': { padding: '8px', fontSize: '14px' } }} />
+            </LocalizationProvider>
 
             <S.ModalButtonBox>
               <S.Button variant="outlined" onClick={() => setOpen(false)}>

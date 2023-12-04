@@ -16,7 +16,7 @@ import BoxMUI from "@mui/material/Box";
 
 export const Button = styled(ButtonMUI)``;
 export const TextField = styled(TextFieldMUI)`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 export const Form = styled.form`
   display: flex;
@@ -31,7 +31,9 @@ export const Alert = styled(AlertMUI)``;
 export const Typography = styled(TypographyMUI)``;
 export const FormControl = styled(FormControlMUI)``;
 export const InputLabel = styled(InputLabelMUI)``;
-export const Select = styled(SelectMUI)``;
+export const Select = styled(SelectMUI)`
+margin-bottom: 10px;
+`;
 export const MenuItem = styled(MenuItemMUI)``;
 export const OutlinedInput = styled(OutlinedInputMUI)`
   margin-bottom: 20px;

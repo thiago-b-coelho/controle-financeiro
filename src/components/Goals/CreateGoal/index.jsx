@@ -2,14 +2,44 @@
 import axios from "axios";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEventsTwoTone";
 import SavingsTwoToneIcon from "@mui/icons-material/SavingsTwoTone";
-import EventTwoToneIcon from "@mui/icons-material/EditCalendarTwoTone";
 import * as S from "../../../styles/style.jsx";
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import { InputAdornment, Modal } from "@mui/material";
-import { useRouter } from "next/navigation.js";
+import { NumericFormat } from "react-number-format";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { formatISO } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
+/* Big chunk of code just to give the 'money' field some format */
+const NumericFormatCustom = forwardRef(function NumericFormatCustom(
+  props,
+  ref
+) {
+  const { onChange, ...other } = props;
+
+  return (
+    <NumericFormat
+      {...other}
+      getInputRef={ref}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator="."
+      valueIsNumericString
+      decimalSeparator=","
+      prefix="R$ "
+    />
+  );
+});
 
 const CreateGoal = ({ open, setOpen }) => {
-  const router = useRouter();
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [date, setDate] = useState("");
@@ -26,7 +56,11 @@ const CreateGoal = ({ open, setOpen }) => {
 
       const { data } = await axios.post(
         "http://localhost:8080/goal",
-        { description, value, date },
+        {
+          description,
+          value: value * 100,
+          date: formatISO(date, { representation: "date", locale: ptBR }),
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +101,7 @@ const CreateGoal = ({ open, setOpen }) => {
           <S.Form onSubmit={onSubmit}>
             <h1>Create goal</h1>
             <S.TextField
-              id="name"
+              id="goal"
               label="Goal"
               type="text"
               variant="outlined"
@@ -83,12 +117,13 @@ const CreateGoal = ({ open, setOpen }) => {
             />
 
             <S.TextField
-              id="name"
+              id="amount"
               label="Amount"
               type="text"
               variant="outlined"
               size="small"
               InputProps={{
+                inputComponent: NumericFormatCustom,
                 endAdornment: (
                   <InputAdornment position="end">
                     <SavingsTwoToneIcon />
@@ -98,21 +133,20 @@ const CreateGoal = ({ open, setOpen }) => {
               onChange={(e) => setValue(e.target.value)}
             />
 
-            <S.TextField
-              id="name"
-              label="Final Date"
-              type="text"
-              variant="outlined"
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <EventTwoToneIcon />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(e) => setDate(e.target.value)}
-            />
+            <LocalizationProvider
+              dateAdapter={AdapterDateFns}
+              adapterLocale={ptBR}
+            >
+              <DatePicker
+                onChange={(newValue) => setDate(newValue)}
+                sx={{
+                  "& .MuiOutlinedInput-input": {
+                    padding: "8px",
+                    fontSize: "14px",
+                  },
+                }}
+              />
+            </LocalizationProvider>
 
             <S.ModalButtonBox>
               <S.Button variant="outlined" onClick={() => setOpen(false)}>

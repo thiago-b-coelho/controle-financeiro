@@ -6,6 +6,7 @@ import * as S from "../../../styles/style.jsx";
 import CreateCategory from "@/components/Categories/CreateCategory";
 import CreateGoal from "@/components/Goals/CreateGoal/index.jsx";
 import CreateTransaction from "@/components/Transactions/CreateTransaction/index.jsx";
+import TransactionList from "@/components/TransactionList/index.jsx";
 
 const Transactions = () => {
   const router = useRouter();
@@ -58,6 +59,7 @@ const Transactions = () => {
         open={openTransactionModal}
         setOpen={setOpenTransactionModal}
       />
+      <TransactionList />
     </div>
   );
 };
