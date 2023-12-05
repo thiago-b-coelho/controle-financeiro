@@ -1,6 +1,7 @@
 "use client";
 
-import UpdateTransaction from "@/components/Transactions/UpdateTransaction";
+import Chart from "@/components/Chart";
+import Panel from "@/components/Panel";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -28,14 +29,10 @@ const DashboardPage = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <div>
       <h1>Olá, {user.name}</h1>
+      <Panel />
+      <Chart />
     </div>
   );
 };

@@ -64,7 +64,7 @@ const TransactionList = () => {
       }
     };
     getTransactions();
-  }, []);
+  }, [transactions]);
 
   return (
     <div style={{ height: 400, width: "100%", marginTop: "20px" }}>

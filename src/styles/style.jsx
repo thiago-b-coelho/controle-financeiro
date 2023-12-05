@@ -59,3 +59,27 @@ export const ModalButtonBox = styled(BoxMUI)`
   justify-content: flex-end;
   gap: 10px;
 `;
+
+export const CardContainer = styled.div`
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 24px 28px;
+  border-radius: 10px;
+  margin: auto;
+  margin-bottom: 40px;
+  max-width: 600px;
+`
+export const IconContainer = styled.div`
+  padding: 12px 13px;
+  background-color: #299D91;
+  border-radius: 8px;
+  color: #fff;
+  display: flex;
+`
+
+export const TextContainer = styled.div`
+  width: 100%;
+  text-align: center;
+`
+

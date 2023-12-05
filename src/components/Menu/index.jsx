@@ -21,6 +21,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { BarChart, Category, Logout, ReceiptLong } from "@mui/icons-material";
 import Link from "next/link.js";
 import { useRouter } from "next/navigation.js";
+import { useState } from "react";
 
 const drawerWidth = 240;
 
@@ -92,7 +93,7 @@ const Drawer = styled(MuiDrawer, {
 const Menu = ({ children }) => {
   const router = useRouter();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(true);
   const logout = () => {
     localStorage.removeItem("token");
     router.push('/login')
