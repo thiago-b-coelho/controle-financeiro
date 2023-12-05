@@ -67,7 +67,7 @@ const TransactionList = () => {
   }, []);
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 400, width: "100%", marginTop: "20px" }}>
       <DataGrid
         rows={transactions}
         columns={columns}

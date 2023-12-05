@@ -1,15 +1,12 @@
 "use client";
 
-import UpdateCategory from "@/components/Categories/UpdateCategory";
-import CreateGoal from "@/components/Goals/CreateGoal";
-import UpdateGoal from "@/components/Goals/UpdateGoal";
-import CreateTransaction from "@/components/Transactions/CreateTransaction";
 import UpdateTransaction from "@/components/Transactions/UpdateTransaction";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const DashboardPage = () => {
+  const [user, setUser] = useState({ id: null });
   const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -22,7 +19,9 @@ const DashboardPage = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then()
+      .then((response) => {
+        setUser(response.data.data);
+      })
       .catch((error) => {
         router.push("/login");
       });
@@ -36,10 +35,7 @@ const DashboardPage = () => {
         alignItems: "center",
       }}
     >
-      {/* <UpdateGoal goalId={1}/> */}
-      {/* <UpdateCategory categoryId={2}/> */}
-      {/* <CreateTransaction /> */}
-      <UpdateTransaction transactionId={1}/>
+      <h1>Olá, {user.name}</h1>
     </div>
   );
 };
