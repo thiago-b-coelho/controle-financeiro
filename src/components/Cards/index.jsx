@@ -7,7 +7,7 @@ import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgres
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const Cards = ({ icon, label, value, isGoal, goals }) => {
+const Cards = ({ icon, label, value, balance, isGoal, goals }) => {
   const [goal, setGoal] = useState("1");
   return (
     <S.CardContainer>
@@ -46,12 +46,12 @@ const Cards = ({ icon, label, value, isGoal, goals }) => {
               <strong>
                 R$ {goals.find((item) => item.id == goal)?.value / 100}
               </strong>
-                  <LinearProgress variant="determinate" value={10} />
+                  <LinearProgress variant="determinate" value={balance/(goals.find((item) => item.id == goal)?.value / 100)} />
                 <Box sx={{ minWidth: 35 }}>
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                  >{`${Math.round(10)}%`}</Typography>
+                  >{`${Math.round(balance/(goals.find((item) => item.id == goal)?.value / 100))}%`}</Typography>
                 </Box>
             </div>
           </div>

@@ -1,20 +1,21 @@
 import { BarChart } from "@mui/x-charts/BarChart";
-import { DEFAULT_Y_AXIS_KEY, axisClasses } from "@mui/x-charts";
+import {  axisClasses } from "@mui/x-charts";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BeatLoader } from "react-spinners";
+import * as S from "../../styles/style"
+import Loader from "../Loader";
 
 const chartSetting = {
-  height: 300,
+  height: 400,
   sx: {
     [`.${axisClasses.left} .${axisClasses.label}`]: {
-      transform: "translate(-20px, 0)",
+      transform: "translate(10px, 20px)",
     },
   },
-  width: 900
+  width: 900,
 };
 
-const valueFormatter = (value) => `R$ ${value / 100}`;
+const valueFormatter = (value) => `R$ ${value}`;
 
 const Chart = () => {
   const [transactions, setTransactions] = useState([]);
@@ -62,8 +63,8 @@ const Chart = () => {
         sum.forEach((item, index) => {
           repo.push({
             year: index,
-            income: item.income ?? 0,
-            expense: item.expense ?? 0,
+            income: item.income/100 ?? 0,
+            expense: item.expense/100 ?? 0,
           });
         });
         setReport(repo);
@@ -77,32 +78,19 @@ const Chart = () => {
   return (
     <div>
       {report.length ? (
+        <S.ChartContainer>
         <BarChart
           dataset={report}
           xAxis={[{ scaleType: "band", dataKey: "year", categoryGapRatio: 0.5 }]}
-          leftAxis={{
-            labelStyle: {
-              fontSize: 14
-            }
-          }}
           series={[
-            { dataKey: "income", label: "Income", color: "#03A9F4", valueFormatter },
+            { dataKey: "income", label: "Income", valueFormatter },
             { dataKey: "expense", label: "Expense", color: "#9E9E9E", valueFormatter },
           ]}
           {...chartSetting}
         />
+        </S.ChartContainer>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            height: "50vh",
-            width: "auto",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <BeatLoader loading size={15} color="#299D91"/>
-        </div>
+        <Loader />
       )}
     </div>
   );

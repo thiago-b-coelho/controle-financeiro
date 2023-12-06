@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import AddchartIcon from "@mui/icons-material/Addchart";
-import * as S from "./style.jsx";
+import * as S from "../../../styles/style";
 import React, { useEffect, useState } from "react";
 import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";

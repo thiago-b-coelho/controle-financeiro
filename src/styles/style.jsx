@@ -32,7 +32,7 @@ export const Typography = styled(TypographyMUI)``;
 export const FormControl = styled(FormControlMUI)``;
 export const InputLabel = styled(InputLabelMUI)``;
 export const Select = styled(SelectMUI)`
-margin-bottom: 10px;
+  margin-bottom: 10px;
 `;
 export const MenuItem = styled(MenuItemMUI)``;
 export const OutlinedInput = styled(OutlinedInputMUI)`
@@ -47,7 +47,7 @@ export const ModalBox = styled(BoxMUI)`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
-  background-color: white; 
+  background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.5);
   padding: 16px;
@@ -69,17 +69,30 @@ export const CardContainer = styled.div`
   margin: auto;
   margin-bottom: 40px;
   max-width: 600px;
-`
+`;
 export const IconContainer = styled.div`
   padding: 12px 13px;
-  background-color: #299D91;
+  background-color: #299d91;
   border-radius: 8px;
   color: #fff;
   display: flex;
-`
+`;
 
 export const TextContainer = styled.div`
   width: 100%;
   text-align: center;
-`
+`;
 
+export const LoaderContainer = styled.div`
+  display: flex;
+  height: 50vh;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ChartContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+`

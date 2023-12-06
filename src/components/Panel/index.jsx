@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Cards from "../Cards";
 import { Grid } from "@mui/material";
-import { AccountBalanceTwoTone, AccountBalanceWallet, AdsClick, LocalAtm, SwapHoriz } from "@mui/icons-material";
+import { AccountBalanceWallet, AdsClick, LocalAtm, SwapHoriz } from "@mui/icons-material";
 import axios from "axios";
 
 const Panel = () => {
@@ -57,9 +57,7 @@ const Panel = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
         setGoals(data)
-        
       } catch (error) {
         console.log(error);
       }
@@ -91,7 +89,7 @@ const Panel = () => {
           <Cards
             icon={<AdsClick />}
             label="Goals"
-            value={10}
+            balance={balance.balance}
             isGoal
             goals={goals}
           />

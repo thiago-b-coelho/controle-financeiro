@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import AddchartIcon from "@mui/icons-material/Addchart";
-import * as S from "../../../styles/style.jsx";
+import * as S from "../../../styles/style";
 import { Modal } from "@mui/material";
 import React, { useState } from "react";
 import { InputAdornment, Link } from "@mui/material";
