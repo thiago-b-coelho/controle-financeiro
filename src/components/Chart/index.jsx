@@ -18,6 +18,8 @@ const chartSetting = {
 const valueFormatter = (value) => `R$ ${value}`;
 
 const Chart = () => {
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'
   const [transactions, setTransactions] = useState([]);
   const [transactionsChart, setTransactionsChart] = useState([]);
   const [year, setYear] = useState("all");
@@ -30,7 +32,7 @@ const Chart = () => {
         const token = localStorage.getItem("token");
         const {
           data: { data },
-        } = await axios.get("http://localhost:8080/transaction", {
+        } = await axios.get(`${URL}/transaction`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

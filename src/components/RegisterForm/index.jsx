@@ -8,6 +8,8 @@ import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";
 
 const RegisterForm = () => {
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,7 +26,7 @@ const RegisterForm = () => {
     try {
       const {
         data: { data },
-      } = await axios.post("http://localhost:8080/auth/register", {
+      } = await axios.post(`${URL}/auth/register`, {
         name,
         email,
         password,
@@ -33,7 +35,8 @@ const RegisterForm = () => {
       handleNotification(data.message, "success");
       router.push("/dashboard");
     } catch (error) {
-      handleNotification(error.response.data.error, "error");
+      console.log(error.message)
+      //handleNotification(error.response.data.error, "error");
     }
   };
 

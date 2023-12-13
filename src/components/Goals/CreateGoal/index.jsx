@@ -40,6 +40,8 @@ const NumericFormatCustom = forwardRef(function NumericFormatCustom(
 });
 
 const CreateGoal = ({ open, setOpen }) => {
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [date, setDate] = useState("");
@@ -55,7 +57,7 @@ const CreateGoal = ({ open, setOpen }) => {
       const token = localStorage.getItem("token");
 
       const { data } = await axios.post(
-        "http://localhost:8080/goal",
+        `${URL}/goal`,
         {
           description,
           value: value * 100,

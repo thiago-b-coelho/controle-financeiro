@@ -9,6 +9,8 @@ import CreateTransaction from "@/components/Transactions/CreateTransaction/index
 import TransactionList from "@/components/TransactionList/index.jsx";
 
 const Transactions = () => {
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'
   const router = useRouter();
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
   const [openCategoryModal, setOpenCategoryModal] = useState(false);
@@ -23,7 +25,7 @@ const Transactions = () => {
       router.push("/login");
     }
     axios
-      .get("http://localhost:8080/user/me", {
+      .get(`${URL}/user/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

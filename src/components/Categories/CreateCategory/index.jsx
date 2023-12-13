@@ -8,7 +8,8 @@ import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";
 
 const CreateCategory = ({ open, setOpen }) => {
-  const router = useRouter();
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'const router = useRouter();
   const [name, setName] = useState("");
   const [notification, setNotification] = useState({
     open: false,
@@ -22,7 +23,7 @@ const CreateCategory = ({ open, setOpen }) => {
       const token = localStorage.getItem("token");
 
       const { data } = await axios.post(
-        "http://localhost:8080/category",
+        `${URL}/category`,
         { name },
         {
           headers: {

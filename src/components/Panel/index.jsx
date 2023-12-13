@@ -6,6 +6,8 @@ import { AccountBalanceWallet, AdsClick, LocalAtm, SwapHoriz } from "@mui/icons-
 import axios from "axios";
 
 const Panel = () => {
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'
   const [goals, setGoals] = useState([]);
   const [balance, setBalance] = useState({
     balance: 0,
@@ -18,7 +20,7 @@ const Panel = () => {
         const token = localStorage.getItem("token");
         const {
           data: { data },
-        } = await axios.get("http://localhost:8080/transaction", {
+        } = await axios.get(`${URL}/transaction`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -52,7 +54,7 @@ const Panel = () => {
         const token = localStorage.getItem("token");
         const {
           data: { data },
-        } = await axios.get("http://localhost:8080/goal", {
+        } = await axios.get(`${URL}/goal`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

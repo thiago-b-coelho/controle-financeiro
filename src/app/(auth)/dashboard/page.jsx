@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const DashboardPage = () => {
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'
   const [user, setUser] = useState({ id: null });
   const router = useRouter();
   useEffect(() => {
@@ -15,7 +17,7 @@ const DashboardPage = () => {
       router.push("/login");
     }
     axios
-      .get("http://localhost:8080/user/me", {
+      .get(`${URL}/user/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

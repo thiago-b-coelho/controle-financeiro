@@ -40,6 +40,8 @@ const NumericFormatCustom = forwardRef(function NumericFormatCustom(
 });
 
 const CreateTransaction = ({ open, setOpen }) => {
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [type, setType] = useState("");
@@ -58,7 +60,7 @@ const CreateTransaction = ({ open, setOpen }) => {
         const token = localStorage.getItem("token");
         const {
           data: { data },
-        } = await axios.get(`http://localhost:8080/category`, {
+        } = await axios.get(`${URL}/category`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -77,7 +79,7 @@ const CreateTransaction = ({ open, setOpen }) => {
       const token = localStorage.getItem("token");
 
       const { data } = await axios.post(
-        "http://localhost:8080/transaction",
+        `${URL}/transaction`,
         { description, value: value * 100, date: formatISO(date, { representation: 'date', locale: ptBR }), type, category_id: category },
         {
           headers: {

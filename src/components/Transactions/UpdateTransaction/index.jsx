@@ -9,6 +9,8 @@ import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";
 
 const UpdateTransaction = ({ transactionId }) => {
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'
   const router = useRouter();
   const [description, setDescription] = useState("");
   const [oldTransaction, setOldTransaction] = useState("");
@@ -29,7 +31,7 @@ const UpdateTransaction = ({ transactionId }) => {
         const token = localStorage.getItem("token");
         const {
           data: { data },
-        } = await axios.get(`http://localhost:8080/category`, {
+        } = await axios.get(`${URL}/category`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,7 +48,7 @@ const UpdateTransaction = ({ transactionId }) => {
         const {
           data: { data },
         } = await axios.get(
-          `http://localhost:8080/transaction/${transactionId}`,
+          `${URL}/transaction/${transactionId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -75,7 +77,7 @@ const UpdateTransaction = ({ transactionId }) => {
       const token = localStorage.getItem("token");
 
       const { data } = await axios.put(
-        `http://localhost:8080/transaction/${transactionId}`,
+        `${URL}/transaction/${transactionId}`,
         { description, value, date },
         {
           headers: {

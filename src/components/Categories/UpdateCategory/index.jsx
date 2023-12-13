@@ -7,7 +7,8 @@ import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";
 
 const UpdateCategory = ({categoryId}) => {
-  const router = useRouter();
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'const router = useRouter();
   const [name, setName] = useState("");
   const [oldName, setOldName] = useState("");
   const [notification, setNotification] = useState({
@@ -20,7 +21,7 @@ const UpdateCategory = ({categoryId}) => {
     const getCategory = async () => {
       try {
         const token = localStorage.getItem('token');
-        const {data: {data}} = await axios.get(`http://localhost:8080/category/${categoryId}`, {
+        const {data: {data}} = await axios.get(`${URL}/category/${categoryId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -40,7 +41,7 @@ const UpdateCategory = ({categoryId}) => {
       const token = localStorage.getItem("token");
 
       const { data }  = await axios.put(
-        `http://localhost:8080/category/${categoryId}`,
+        `${URL}/category/${categoryId}`,
         { name },
         { headers: {
             Authorization: `Bearer ${token}`,

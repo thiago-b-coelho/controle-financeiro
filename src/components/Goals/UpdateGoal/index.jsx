@@ -9,7 +9,8 @@ import { InputAdornment, Link } from "@mui/material";
 import { useRouter } from "next/navigation.js";
 
 const UpdateGoal = ({goalId}) => {
-  const router = useRouter();
+  const URL = 'https://controle-financeiro-02288fa9a600.herokuapp.com';
+  // const URL = 'http://localhost:8080'const router = useRouter();
   const [description, setDescription] = useState("");
   const [oldGoal, setOldGoal] = useState("");
   const [value, setValue] = useState("");
@@ -24,7 +25,7 @@ const UpdateGoal = ({goalId}) => {
     const getGoal = async () => {
       try {
         const token = localStorage.getItem('token');
-        const {data: {data}} = await axios.get(`http://localhost:8080/goal/${goalId}`, {
+        const {data: {data}} = await axios.get(`${URL}/goal/${goalId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -46,7 +47,7 @@ const UpdateGoal = ({goalId}) => {
       const token = localStorage.getItem("token");
 
       const { data }  = await axios.put(
-        `http://localhost:8080/goal/${goalId}`,
+        `${URL}/goal/${goalId}`,
         { description, value, date },
         { headers: {
             Authorization: `Bearer ${token}`,
